@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tomorrow Checklist - รายการซื้อของ</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <header>
+        <h1>Tomorrow Checklist</h1>
+        <p>รายการซื้อของตามลำดับคงที่</p>
+    </header>
+
+    <main>
+        <!-- ส่วนของช่องค้นหาและปุ่มควบคุม -->
+        <div class="controls">
+            <input type="text" id="search-input" placeholder="🔍 ค้นหารายการ...">
+            <button id="reset-button">🔄 รีเซ็ตเช็กลิสต์</button>
+        </div>
+
+        <!-- ส่วนแสดงรายการเช็กลิสต์ -->
+        <ul id="checklist-container" class="checklist">
+            <!-- รายการจะถูกสร้างด้วย JavaScript -->
+            <li class="loading-message">กำลังโหลดรายการ...</li>
+        </ul>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Tomorrow Checklist</p>
+    </footer>
+
+    <script src="scripts/app.js"></script>
+</body>
+</html>

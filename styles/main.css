@@ -1,0 +1,155 @@
+/* styles/main.css */
+
+:root {
+    --primary-color: #4CAF50; /* สีเขียว */
+    --secondary-color: #FF9800; /* สีส้ม */
+    --background-color: #f4f4f9;
+    --card-background: #ffffff;
+    --text-color: #333;
+    --done-color: #aaa;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    padding: 20px;
+    max-width: 600px; /* จำกัดความกว้างสำหรับ Mobile-friendly */
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 1.1em;
+    color: #666;
+}
+
+/* Controls (Search and Reset Button) */
+.controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+}
+
+#reset-button {
+    padding: 10px 15px;
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    white-space: nowrap;
+}
+
+#reset-button:hover {
+    background-color: #e68900;
+}
+
+/* Checklist Styling */
+.checklist {
+    list-style: none;
+    padding: 0;
+}
+
+.checklist-item {
+    background-color: var(--card-background);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.checklist-item.done {
+    opacity: 0.5; /* ติ๊กแล้วจางลง */
+    background-color: #e0e0e0;
+}
+
+.item-label {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 1.2em; /* ตัวหนังสือใหญ่พออ่านง่าย */
+}
+
+.item-label input[type="checkbox"] {
+    /* ซ่อน checkbox เดิมและใช้สไตล์ของเราเอง */
+    appearance: none;
+    -webkit-appearance: none;
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--primary-color);
+    border-radius: 6px;
+    margin-right: 15px;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0; /* ป้องกันไม่ให้ย่อ */
+}
+
+.item-label input[type="checkbox"]:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.item-label input[type="checkbox"]:checked::after {
+    content: '✓';
+    color: white;
+    font-size: 1.5em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checklist-item.done .item-text {
+    text-decoration: line-through;
+    color: var(--done-color);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: #999;
+}
+
+/* Responsive adjustments (Optional, but good practice) */
+@media (max-width: 400px) {
+    body {
+        padding: 10px;
+    }
+    header h1 {
+        font-size: 2em;
+    }
+    .item-label {
+        font-size: 1.1em;
+        padding: 12px;
+    }
+}
