@@ -81,7 +81,49 @@ function handleToggleComplete(event) {
     }
 }
 
-// 6. โหลดข้อมูลเริ่มต้น
+// 6. ฟังก์ชันรีเซ็ตเช็กลิสต์
+function resetChecklist() {
+    if (!confirm('คุณแน่ใจหรือไม่ที่จะรีเซ็ตเช็กลิสต์ทั้งหมด? สถานะการติ๊กทั้งหมดจะถูกล้าง')) {
+        return;
+    }
+
+    // ล้างสถานะ done ทั้งหมด
+    currentChecklist = currentChecklist.map(item => ({
+        ...item,
+        done: false
+    }));
+
+    // บันทึกสถานะใหม่ (ว่างเปล่า)
+    saveChecklistStatus(currentChecklist);
+
+    // แสดงผลใหม่
+    renderChecklist(currentChecklist);
+    alert('รีเซ็ตเช็กลิสต์เรียบร้อยแล้วค่ะ!');
+}
+
+// 7. ฟังก์ชันคัดลอกรายการที่ยังไม่เสร็จ
+function copyUncheckedItems() {
+    const uncheckedItems = currentChecklist
+        .filter(item => !item.done)
+        .map(item => `- ${item.name}`)
+        .join('\n');
+
+    if (uncheckedItems.length === 0) {
+        alert('ไม่มีรายการที่ยังไม่เสร็จให้คัดลอกค่ะ');
+        return;
+    }
+
+    navigator.clipboard.writeText(uncheckedItems)
+        .then(() => {
+            alert('คัดลอกรายการที่ยังไม่เสร็จไปยังคลิปบอร์ดแล้วค่ะ!');
+        })
+        .catch(err => {
+            console.error('Could not copy text: ', err);
+            alert('ไม่สามารถคัดลอกได้ กรุณาลองใหม่ค่ะ');
+        });
+}
+
+// 7. โหลดข้อมูลเริ่มต้น
 async function loadInitialData() {
     try {
         // โหลดรายการสินค้าจาก data/items.json
@@ -113,4 +155,10 @@ async function loadInitialData() {
 }
 
 // เริ่มต้นแอปพลิเคชัน
-document.addEventListener('DOMContentLoaded', loadInitialData);
+document.addEventListener('DOMContentLoaded', () => {
+    loadInitialData();
+
+    // ผูก Event Listener กับปุ่ม
+    document.getElementById('copy-button').addEventListener('click', copyUncheckedItems);
+    document.getElementById('reset-button').addEventListener('click', resetChecklist);
+});

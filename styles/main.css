@@ -43,28 +43,47 @@ header p {
 
 /* Controls (Search and Reset Button) */
 .controls {
+    margin-bottom: 10px;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1em;
+}
+
+.controls-buttons {
     display: flex;
     gap: 10px;
     margin-bottom: 20px;
 }
 
-#search-input {
-    flex-grow: 1;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1em;
-}
-
-#reset-button {
-    padding: 10px 15px;
-    background-color: var(--secondary-color);
-    color: white;
+.controls-buttons button {
+    flex: 1;
+    padding: 12px 10px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-size: 1em;
+    font-weight: bold;
     white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+#copy-button {
+    background-color: #2196F3; /* สีฟ้าสำหรับคัดลอก */
+    color: white;
+}
+
+#copy-button:hover {
+    background-color: #0b7dda;
+}
+
+#reset-button {
+    background-color: var(--secondary-color); /* สีส้มสำหรับรีเซ็ต */
+    color: white;
 }
 
 #reset-button:hover {
