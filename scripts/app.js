@@ -48,6 +48,39 @@ function createChecklistItemHTML(item) {
 // 4. แสดงผลรายการเช็กลิสต์
 function renderChecklist(checklist) {
     checklistContainer.innerHTML = ''; // ล้างรายการเดิม
+    const filteredChecklist = checklist.filter(item => !item.hidden); // กรองรายการที่ถูกซ่อน
+
+    if (filteredChecklist.length === 0) {
+        checklistContainer.innerHTML = '<li class="empty-message">ไม่พบรายการสินค้า</li>';
+        return;
+    }
+
+    filteredChecklist.forEach(item => {
+        const itemElement = createChecklistItemHTML(item);
+        checklistContainer.appendChild(itemElement);
+    });
+}
+
+// 5. จัดการการค้นหา
+function handleSearch(event) {
+    const searchTerm = event.target.value.toLowerCase();
+
+    // อัปเดตสถานะ hidden ใน currentChecklist
+    currentChecklist = currentChecklist.map(item => {
+        const isMatch = item.name.toLowerCase().includes(searchTerm);
+        return {
+            ...item,
+            hidden: !isMatch
+        };
+    });
+
+    // แสดงผลใหม่
+    renderChecklist(currentChecklist);
+}
+
+// 6. จัดการการติ๊กเช็ก
+function renderChecklist(checklist) {
+    checklistContainer.innerHTML = ''; // ล้างรายการเดิม
     if (checklist.length === 0) {
         checklistContainer.innerHTML = '<li class="empty-message">ไม่พบรายการสินค้า</li>';
         return;
@@ -101,21 +134,21 @@ function resetChecklist() {
     alert('รีเซ็ตเช็กลิสต์เรียบร้อยแล้วค่ะ!');
 }
 
-// 7. ฟังก์ชันคัดลอกรายการที่ยังไม่เสร็จ
-function copyUncheckedItems() {
-    const uncheckedItems = currentChecklist
-        .filter(item => !item.done)
+// 7. ฟังก์ชันคัดลอกรายการที่เสร็จแล้ว
+function copyCheckedItems() {
+    const checkedItems = currentChecklist
+        .filter(item => item.done)
         .map(item => `- ${item.name}`)
         .join('\n');
 
-    if (uncheckedItems.length === 0) {
-        alert('ไม่มีรายการที่ยังไม่เสร็จให้คัดลอกค่ะ');
+    if (checkedItems.length === 0) {
+        alert('ไม่มีรายการที่เสร็จแล้วให้คัดลอกค่ะ');
         return;
     }
 
-    navigator.clipboard.writeText(uncheckedItems)
+    navigator.clipboard.writeText(checkedItems)
         .then(() => {
-            alert('คัดลอกรายการที่ยังไม่เสร็จไปยังคลิปบอร์ดแล้วค่ะ!');
+            alert('คัดลอกรายการที่เสร็จแล้วไปยังคลิปบอร์ดแล้วค่ะ!');
         })
         .catch(err => {
             console.error('Could not copy text: ', err);
@@ -123,7 +156,7 @@ function copyUncheckedItems() {
         });
 }
 
-// 7. โหลดข้อมูลเริ่มต้น
+// 8. โหลดข้อมูลเริ่มต้น
 async function loadInitialData() {
     try {
         // โหลดรายการสินค้าจาก data/items.json
@@ -155,10 +188,11 @@ async function loadInitialData() {
 }
 
 // เริ่มต้นแอปพลิเคชัน
-document.addEventListener('DOMContentLoaded', () => {
-    loadInitialData();
+    document.addEventListener('DOMContentLoaded', () => {
+        loadInitialData();
 
-    // ผูก Event Listener กับปุ่ม
-    document.getElementById('copy-button').addEventListener('click', copyUncheckedItems);
-    document.getElementById('reset-button').addEventListener('click', resetChecklist);
-});
+        // ผูก Event Listener กับปุ่ม
+        document.getElementById('copy-button').addEventListener('click', copyCheckedItems);
+        document.getElementById('reset-button').addEventListener('click', resetChecklist);
+        document.getElementById('search-input').addEventListener('input', handleSearch); // ผูก Event Listener สำหรับช่องค้นหา
+    });
